@@ -30,7 +30,9 @@ class KoinApplication: Application(){
         val networkModules = module {
             single{ AppModule()}
             single { AppModule().provideGson() }
-            single { AppModule().provideOkHttpClientCredential(get()) }
+//            If you have a custom Interceptor for your Header, can add here
+//            single { AppModule().provideOkHttpClientCredential(get()) }
+            single{ AppModule().provideOKHttpClient(get())}
             single{ AppModule().provideGeneralService(get(),get())}
             single{ AppModule().provideSchedulerProvider()}
         }

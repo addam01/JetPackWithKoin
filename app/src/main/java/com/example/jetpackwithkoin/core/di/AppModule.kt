@@ -27,7 +27,7 @@ import java.util.concurrent.TimeUnit
  */
 
 class AppModule{
-        private val URL = "http://github.com/"
+        private val URL = "https://my-json-server.typicode.com/addam01/demoJson/"
 
     fun provideOkHttpClientCredential(application: Application): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
@@ -48,6 +48,21 @@ class AppModule{
                 val request = builder.build()
                 chain.proceed(request)
             }
+            .addInterceptor(interceptor)
+            .build()
+    }
+
+    fun provideOKHttpClient(application: Application): OkHttpClient{
+        val interceptor = HttpLoggingInterceptor()
+        interceptor.level = HttpLoggingInterceptor.Level.BODY
+        val cacheDir = File(application.cacheDir, UUID.randomUUID().toString())
+        val cache = Cache(cacheDir, 10 * 1024 * 1024)
+
+        return OkHttpClient.Builder()
+            .cache(cache)
+            .connectTimeout(30, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .addInterceptor(interceptor)
             .build()
     }
