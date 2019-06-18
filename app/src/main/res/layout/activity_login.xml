@@ -4,13 +4,13 @@
         xmlns:tools="http://schemas.android.com/tools"
         xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <variable name="viewModel" type="com.example.jetpackwithkoin.features.LoginViewModel"/>
+        <variable name="viewModel" type="com.example.jetpackwithkoin.features.login.LoginViewModel"/>
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:context=".features.LoginActivity">
+            tools:context=".features.login.LoginActivity">
 
         <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/txt_username"

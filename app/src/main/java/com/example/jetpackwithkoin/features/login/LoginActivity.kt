@@ -1,4 +1,4 @@
-package com.example.jetpackwithkoin.features
+package com.example.jetpackwithkoin.features.login
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle

@@ -1,8 +1,10 @@
 package com.example.jetpackwithkoin.rest
 
+import com.example.jetpackwithkoin.rest.models.PostsResponse
 import com.example.jetpackwithkoin.rest.models.RepoModel
 import com.example.jetpackwithkoin.rest.models.SampleLoginResponse
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.http.GET
 import retrofit2.http.Path
 
@@ -17,4 +19,7 @@ interface GeneralService {
 
     @GET("login")
     fun getSampleLogin(): Single<SampleLoginResponse>
+
+    @GET("posts")
+    suspend fun getPosts(): Response<List<PostsResponse>>
 }

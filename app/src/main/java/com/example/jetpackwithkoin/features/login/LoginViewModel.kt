@@ -1,9 +1,8 @@
-package com.example.jetpackwithkoin.features
+package com.example.jetpackwithkoin.features.login
 
 import androidx.lifecycle.ViewModel
 import com.example.jetpackwithkoin.core.SchedulerProvider
 import com.example.jetpackwithkoin.rest.GeneralRepository
-import com.example.jetpackwithkoin.rest.models.RepoModel
 import com.example.jetpackwithkoin.rest.models.SampleLoginResponse
 import com.example.jetpackwithkoin.utilities.ObservableString
 import com.github.ajalt.timberkt.Timber

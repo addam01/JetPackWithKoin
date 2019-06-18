@@ -2,9 +2,10 @@ package com.example.jetpackwithkoin
 
 import android.app.Application
 import com.example.jetpackwithkoin.core.di.AppModule
-import com.example.jetpackwithkoin.features.LoginViewModel
+import com.example.jetpackwithkoin.features.coroutine.CoroutineViewModel
+import com.example.jetpackwithkoin.features.login.LoginViewModel
+import com.example.jetpackwithkoin.features.main.MainViewModel
 import com.example.jetpackwithkoin.rest.GeneralRepository
-import com.example.jetpackwithkoin.rest.GeneralService
 import com.github.ajalt.timberkt.Timber
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
@@ -46,7 +47,9 @@ class KoinApplication: Application(){
         }
 
         val viewModelModules = module{
+            viewModel { MainViewModel() }
             viewModel { LoginViewModel(get(), get()) }
+            viewModel{ CoroutineViewModel(get())}
         }
 
 

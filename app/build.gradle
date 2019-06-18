@@ -61,7 +61,12 @@ dependencies {
 // Koin Android Experimental features
     implementation "org.koin:koin-android-ext:$koin_version"
 
+//    Using RxKotlin for thread handling
     implementation "io.reactivex.rxjava2:rxjava:$rxjava_version"
     implementation "io.reactivex.rxjava2:rxkotlin:$rxkotlin_version"
     implementation "io.reactivex.rxjava2:rxandroid:$rxandroid_version"
+
+//    Using Kotlin Coroutiines
+    implementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$kotlin_coroutine_version"
+    implementation "com.squareup.retrofit2:converter-moshi:$retrofit_version"
 }
