@@ -1,5 +1,6 @@
 package com.example.jetpackwithkoin.features.coroutine
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.jetpackwithkoin.core.SchedulerProvider
 import com.example.jetpackwithkoin.rest.GeneralRepository
@@ -15,7 +16,9 @@ import retrofit2.Response
 /**
  * Created by owner on 17/06/2019
  */
-class CoroutineViewModel(val generalRepository: GeneralRepository): ViewModel() {
+class CoroutineViewModel(private val generalRepository: GeneralRepository): ViewModel() {
+
+    val items = MutableLiveData<List<PostsResponse>>()
 
     fun getPosts(){
         CoroutineScope(Dispatchers.IO).launch {
@@ -24,6 +27,7 @@ class CoroutineViewModel(val generalRepository: GeneralRepository): ViewModel() 
                 try{
                     if(response.isSuccessful){
 //                        Do something to show the UI
+                        items.postValue(response.body()!!.toList())
                     }else{
 //                        Show error
                     }
