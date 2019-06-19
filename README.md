@@ -67,3 +67,7 @@ In Koin there are 3 types of modules,
 - [Dependency Injection with Kotlin for Android newbies! (Koin,Retrofit and Coroutines)](https://medium.com/@w.g.sandaru/dependency-injection-with-kotlin-koin-retrofit-and-coroutines-android-6bcf6d9a907c)
 - [Getting started with Android Architecture & ViewModel](https://insert-koin.io/docs/2.0/getting-started/android-viewmodel/)
 - [Android Dependency Injection with Koin](https://dev.to/levimoreira/android-dependency-injection-with-koin-i34)
+
+# Update: Added Android Coroutine#
+- Refer to wiki [Coroutine](https://github.com/addam01/JetPackWithKoin/wiki/Coroutine)
+- You may see the sample in the [Coroutine feature] (https://github.com/addam01/JetPackWithKoin/tree/master/app/src/main/java/com/example/jetpackwithkoin/features/coroutine)
