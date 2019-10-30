@@ -1,8 +1,8 @@
 package com.example.jetpackwithkoin.features.login
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.example.jetpackwithkoin.R
 import com.example.jetpackwithkoin.databinding.ActivityLoginBinding
@@ -23,5 +23,9 @@ class LoginActivity : AppCompatActivity(), LoginViewModel.LoginCallback {
 
     override fun onSuccess(response: SampleLoginResponse) {
         Toast.makeText(this@LoginActivity, response.username, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onSuccess(message: String) {
+        Toast.makeText(this@LoginActivity, message, Toast.LENGTH_SHORT).show()
     }
 }
