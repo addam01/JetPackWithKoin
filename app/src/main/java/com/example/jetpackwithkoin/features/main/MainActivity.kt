@@ -1,6 +1,5 @@
 package com.example.jetpackwithkoin.features.main
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
 import com.example.jetpackwithkoin.R
@@ -21,6 +20,7 @@ class MainActivity : BaseActivity() {
         val mBinding: ActivityMainBinding = DataBindingUtil.setContentView(this@MainActivity, R.layout.activity_main)
 
         mBinding.viewModel = viewModel
+        mBinding.lifecycleOwner = this
 
         setupEvent()
     }

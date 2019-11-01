@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity(), LoginViewModel.LoginCallback {
 
         val mBinding: ActivityLoginBinding = DataBindingUtil.setContentView(this, R.layout.activity_login)
         mBinding.viewModel = viewModel
-
+        mBinding.lifecycleOwner = this
         viewModel.callback = this
     }
 

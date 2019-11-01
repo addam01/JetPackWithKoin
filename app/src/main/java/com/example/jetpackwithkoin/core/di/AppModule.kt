@@ -2,14 +2,13 @@ package com.example.jetpackwithkoin.core.di
 
 import android.app.Application
 import android.content.Context
+import com.example.jetpackwithkoin.core.PreferencesModule
 import com.example.jetpackwithkoin.core.SchedulerProvider
-import com.example.jetpackwithkoin.rest.GeneralRepository
 import com.example.jetpackwithkoin.rest.GeneralService
 import com.github.ajalt.timberkt.Timber
 import com.google.gson.FieldNamingPolicy
 import com.google.gson.Gson
 import com.google.gson.GsonBuilder
-import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import okhttp3.Cache
@@ -27,8 +26,14 @@ import java.util.concurrent.TimeUnit
  * Created by owner on 12/06/2019
  */
 
-class AppModule{
-        private val URL = "https://my-json-server.typicode.com/addam01/demoJson/"
+class AppModule(application: Application){
+        private var URL : String
+
+    init {
+        val sharedPreference = PreferencesModule(application)
+        URL = sharedPreference.getUrl()
+        Timber.d{ "URL : $URL" }
+    }
 
     fun provideOkHttpClientCredential(application: Application): OkHttpClient {
         val interceptor = HttpLoggingInterceptor()
@@ -53,14 +58,14 @@ class AppModule{
             .build()
     }
 
-    fun provideOKHttpClient(application: Application): OkHttpClient{
+    fun provideOKHttpClient(): OkHttpClient{
         val interceptor = HttpLoggingInterceptor()
         interceptor.level = HttpLoggingInterceptor.Level.BODY
-        val cacheDir = File(application.cacheDir, UUID.randomUUID().toString())
-        val cache = Cache(cacheDir, 10 * 1024 * 1024)
+//        val cacheDir = File(application.cacheDir, UUID.randomUUID().toString())
+//        val cache = Cache(cacheDir, 10 * 1024 * 1024)
 
         return OkHttpClient.Builder()
-            .cache(cache)
+//            .cache(cache)
             .connectTimeout(30, TimeUnit.SECONDS)
             .readTimeout(60, TimeUnit.SECONDS)
             .writeTimeout(60, TimeUnit.SECONDS)
@@ -69,12 +74,11 @@ class AppModule{
     }
 
     fun provideGeneralService(gson: Gson, okHttpClient: OkHttpClient): GeneralService{
-        val baseUrl = URL
+        val baseUrl = if(URL.isNotEmpty()) URL else "https://my-json-server.typicode.com/addam01/demoJson/"
         return Retrofit.Builder()
             .baseUrl(baseUrl)
             .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .client(okHttpClient)
             .build().create(GeneralService::class.java)
     }

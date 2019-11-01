@@ -1,0 +1,189 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+		xmlns:app="http://schemas.android.com/apk/res-auto"
+		xmlns:tools="http://schemas.android.com/tools"
+		>
+	
+	<data>
+		<variable
+				name="viewModel"
+				type="com.example.jetpackwithkoin.features.starwars.StarWarsViewModel"/>
+		<import type="android.view.View"/>
+	</data>
+	
+	<androidx.constraintlayout.widget.ConstraintLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			tools:context=".features.starwars.StarWarsActivity"
+			android:background="@drawable/bg">
+		
+		<TextView
+				android:id="@+id/header"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:textSize="80sp"
+				android:textColor="@color/yellow"
+				android:textAlignment="center"
+				android:text="STAR \nWARS"/>
+		<com.google.android.material.textfield.TextInputLayout
+				android:id="@+id/txt_name"
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				app:layout_constraintTop_toBottomOf="@+id/header"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_margin="@dimen/default_24dp"
+				app:hintTextAppearance="@style/TextInputLayout"
+				android:textColorHint="@color/white"
+				android:hint="Bounty Name?">
+			<com.google.android.material.textfield.TextInputEditText
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:textColor="@color/white"
+					android:text="@={viewModel.name}"/>
+		</com.google.android.material.textfield.TextInputLayout>
+		
+		<Button
+				android:id="@+id/search"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				app:layout_constraintTop_toBottomOf="@+id/txt_name"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_margin="@dimen/default_24dp"
+				android:background="@drawable/rounded_button"
+				android:textColor="@color/yellow"
+				android:text="Locate"
+				android:onClick="@{()-> viewModel.searchOnClick()}"/>
+		
+		<LinearLayout
+				android:layout_width="0dp"
+				android:layout_height="wrap_content"
+				android:orientation="vertical"
+				app:layout_constraintTop_toBottomOf="@+id/search"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:layout_margin="@dimen/default_24dp"
+				android:background="#80008577"
+				android:visibility="@{viewModel.searchComplete? View.VISIBLE:View.GONE}">
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="12dp">
+				<TextView
+						android:id="@+id/name"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						android:textColor="@color/yellow"
+						android:text="Alias : "/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toEndOf="@+id/name"
+						app:layout_constraintEnd_toEndOf="parent"
+						android:textColor="@color/yellow"
+						android:text="@={viewModel.personName}"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="12dp">
+				<TextView
+						android:id="@+id/height"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						android:textColor="@color/yellow"
+						android:text="Height : "/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toEndOf="@+id/height"
+						app:layout_constraintEnd_toEndOf="parent"
+						android:textColor="@color/yellow"
+						android:text="@={viewModel.height}"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="12dp">
+				<TextView
+						android:id="@+id/planet"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						android:textColor="@color/yellow"
+						android:text="Location : "/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toEndOf="@+id/planet"
+						app:layout_constraintEnd_toEndOf="parent"
+						android:textColor="@color/yellow"
+						android:text="@={viewModel.planet}"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="12dp">
+				<TextView
+						android:id="@+id/ship"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						android:textColor="@color/yellow"
+						android:text="Starship : "/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toEndOf="@+id/ship"
+						app:layout_constraintEnd_toEndOf="parent"
+						android:textColor="@color/yellow"
+						android:text="@={viewModel.spaceShip}"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+			<androidx.constraintlayout.widget.ConstraintLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:padding="12dp">
+				<TextView
+						android:id="@+id/shipClass"
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toStartOf="parent"
+						android:textColor="@color/yellow"
+						android:text="Starship Class : "/>
+				<TextView
+						android:layout_width="0dp"
+						android:layout_height="wrap_content"
+						app:layout_constraintTop_toTopOf="parent"
+						app:layout_constraintStart_toEndOf="@+id/shipClass"
+						app:layout_constraintEnd_toEndOf="parent"
+						android:textColor="@color/yellow"
+						android:text="@={viewModel.starClass}"/>
+			</androidx.constraintlayout.widget.ConstraintLayout>
+		</LinearLayout>
+		
+		<ProgressBar
+				android:layout_width="50dp"
+				android:layout_height="50dp"
+				app:layout_constraintTop_toBottomOf="@+id/search"
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintEnd_toEndOf="parent"
+				android:visibility="@{viewModel.showLoading? View.VISIBLE:View.GONE}"/>
+	
+	</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

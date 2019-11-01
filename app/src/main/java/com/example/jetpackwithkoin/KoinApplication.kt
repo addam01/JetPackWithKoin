@@ -1,19 +1,21 @@
 package com.example.jetpackwithkoin
 
 import android.app.Application
+import com.example.jetpackwithkoin.core.PreferencesModule
 import com.example.jetpackwithkoin.core.di.AppModule
 import com.example.jetpackwithkoin.db.DatabaseRepository
 import com.example.jetpackwithkoin.db.GeneralDatabaseModule
-import com.example.jetpackwithkoin.features.coroutine.CoroutineViewModel
 import com.example.jetpackwithkoin.features.login.LoginViewModel
 import com.example.jetpackwithkoin.features.main.MainViewModel
+import com.example.jetpackwithkoin.features.starwars.StarWarsViewModel
 import com.example.jetpackwithkoin.rest.GeneralRepository
 import com.github.ajalt.timberkt.Timber
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.core.context.loadKoinModules
 import org.koin.core.context.startKoin
-import org.koin.core.context.stopKoin
+import org.koin.core.context.unloadKoinModules
 import org.koin.core.module.Module
 import org.koin.dsl.module
 
@@ -40,23 +42,27 @@ class KoinApplication: Application(){
         startKoin {
             androidLogger()
             androidContext(this@KoinApplication)
-            modules(listOf(repoModules, databaseModules, networkModules, viewModelModules))
+            modules(listOf(networkModules, repoModules, sharedPrefModules, databaseModules, viewModelModules))
         }
     }
 
-    fun loadModules(){
+    private fun loadModules(){
+        networkModules = module {
+            single{ AppModule(get()) }
+            single { AppModule(get()).provideGson() }
+//            If you have a custom Interceptor for your Header, can add here
+//            single { AppModule().provideOkHttpClientCredential(get()) }
+            single{ AppModule(get()).provideOKHttpClient()}
+            single{ AppModule(get()).provideGeneralService(get(),get())}
+            single{ AppModule(get()).provideSchedulerProvider()}
+        }
+
         repoModules = module{
             single { GeneralRepository(get()) }
         }
 
-        networkModules = module {
-            single{ AppModule() }
-            single { AppModule().provideGson() }
-//            If you have a custom Interceptor for your Header, can add here
-//            single { AppModule().provideOkHttpClientCredential(get()) }
-            single{ AppModule().provideOKHttpClient(get())}
-            single{ AppModule().provideGeneralService(get(),get())}
-            single{ AppModule().provideSchedulerProvider()}
+        sharedPrefModules = module {
+            single { PreferencesModule(get()) }
         }
 
         databaseModules = module{
@@ -66,31 +72,39 @@ class KoinApplication: Application(){
             single { DatabaseRepository(get()) }
         }
 
-        sharedPrefModules = module {
-
-        }
 
         viewModelModules = module{
-            viewModel { MainViewModel() }
+            viewModel { MainViewModel(get(),get()) }
             viewModel { LoginViewModel(get(), get(), get()) }
-            viewModel{ CoroutineViewModel(get()) }
+            viewModel { StarWarsViewModel(get(), get()) }
         }
     }
 
     private fun initLogger() {
-        if(BuildConfig.DEBUG){
-            Timber.plant(timber.log.Timber.DebugTree())
-        }
+        Timber.plant(timber.log.Timber.DebugTree())
     }
 
     fun reloadingModules(){
-        stopKoin()
-
-        loadModules()
-        startKoin {
-            androidLogger()
-            androidContext(this@KoinApplication)
-            modules(listOf(repoModules, databaseModules, networkModules, viewModelModules))
+//        stopKoin()
+//
+//        loadModules()
+//        startKoin {
+//            androidLogger()
+//            androidContext(this@KoinApplication)
+//            modules(listOf(networkModules, repoModules, sharedPrefModules, databaseModules, viewModelModules))
+//        }
+        networkModules = module {
+            single{ AppModule(get()) }
+            single { AppModule(get()).provideGson() }
+//            If you have a custom Interceptor for your Header, can add here
+//            single { AppModule().provideOkHttpClientCredential(get()) }
+            single{ AppModule(get()).provideOKHttpClient()}
+            single{ AppModule(get()).provideGeneralService(get(),get())}
+            single{ AppModule(get()).provideSchedulerProvider()}
         }
+
+        unloadKoinModules(networkModules)
+
+        loadKoinModules(networkModules)
     }
 }

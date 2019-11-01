@@ -1,7 +1,8 @@
 package com.example.jetpackwithkoin.core
 
-import com.example.jetpackwithkoin.features.coroutine.CoroutineActivity
+import com.example.jetpackwithkoin.features.SelectActivity
 import com.example.jetpackwithkoin.features.login.LoginActivity
+import com.example.jetpackwithkoin.features.starwars.StarWarsActivity
 
 /**
  * Created by Addam on 17/06/2019
@@ -10,7 +11,9 @@ import com.example.jetpackwithkoin.features.login.LoginActivity
 class Router {
     enum class Destination{
         LOGIN,
-        COROUTINES
+        STARWARS,
+
+        SWAP
     }
 
     enum class Parameter{
@@ -22,7 +25,8 @@ class Router {
         fun getClass(destination: Destination): Class<*>{
             return when (destination){
                 Destination.LOGIN -> LoginActivity::class.java
-                Destination.COROUTINES -> CoroutineActivity::class.java
+                Destination.STARWARS -> StarWarsActivity::class.java
+                Destination.SWAP -> SelectActivity::class.java
             }
         }
     }
