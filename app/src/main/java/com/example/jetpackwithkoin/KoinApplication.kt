@@ -48,13 +48,13 @@ class KoinApplication: Application(){
 
     private fun loadModules(){
         networkModules = module {
-            single{ AppModule(get()) }
-            single { AppModule(get()).provideGson() }
+            factory{ AppModule(get()) }
+            factory { AppModule(get()).provideGson() }
 //            If you have a custom Interceptor for your Header, can add here
-//            single { AppModule().provideOkHttpClientCredential(get()) }
-            single{ AppModule(get()).provideOKHttpClient()}
-            single{ AppModule(get()).provideGeneralService(get(),get())}
-            single{ AppModule(get()).provideSchedulerProvider()}
+//            factory { AppModule().provideOkHttpClientCredential(get()) }
+            factory{ AppModule(get()).provideOKHttpClient()}
+            factory{ AppModule(get()).provideGeneralService(get(),get())}
+            factory{ AppModule(get()).provideSchedulerProvider()}
         }
 
         repoModules = module{
@@ -94,13 +94,13 @@ class KoinApplication: Application(){
 //            modules(listOf(networkModules, repoModules, sharedPrefModules, databaseModules, viewModelModules))
 //        }
         networkModules = module {
-            single{ AppModule(get()) }
-            single { AppModule(get()).provideGson() }
+            factory{ AppModule(get()) }
+            factory { AppModule(get()).provideGson() }
 //            If you have a custom Interceptor for your Header, can add here
-//            single { AppModule().provideOkHttpClientCredential(get()) }
-            single{ AppModule(get()).provideOKHttpClient()}
-            single{ AppModule(get()).provideGeneralService(get(),get())}
-            single{ AppModule(get()).provideSchedulerProvider()}
+//            factory { AppModule().provideOkHttpClientCredential(get()) }
+            factory{ AppModule(get()).provideOKHttpClient()}
+            factory{ AppModule(get()).provideGeneralService(get(),get())}
+            factory{ AppModule(get()).provideSchedulerProvider()}
         }
 
         unloadKoinModules(networkModules)

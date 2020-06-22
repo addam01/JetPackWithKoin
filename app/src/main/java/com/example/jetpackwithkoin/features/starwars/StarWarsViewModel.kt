@@ -8,11 +8,16 @@ import com.example.jetpackwithkoin.rest.models.Person
 import com.example.jetpackwithkoin.rest.models.Planet
 import com.example.jetpackwithkoin.rest.models.Starship
 import com.example.jetpackwithkoin.utilities.ObservableString
+import com.github.ajalt.timberkt.Timber
 import io.reactivex.Single
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.rxkotlin.addTo
 import io.reactivex.rxkotlin.subscribeBy
 
 /** Created by addam in 2019-10-31 **/
 class StarWarsViewModel(private val generalRepository: GeneralRepository, private val schedulerProvider: SchedulerProvider): ViewModel() {
+
+    val compositeDisposable = CompositeDisposable()
 
     var name = ObservableString("")
     var showLoading = ObservableBoolean(false)
@@ -36,17 +41,20 @@ class StarWarsViewModel(private val generalRepository: GeneralRepository, privat
 
                 callPlanet(nameLength)
             }
-        )
+        ).addTo(compositeDisposable)
     }
 
-    fun callPlanet(id:String){
+    private fun callPlanet(id:String){
         getPlanet(id).subscribeBy(
             onSuccess = {
                 planet.set(it.name)
 
                 callStarShip(id)
+            },
+            onError = {
+                Timber.e{it.message.toString()}
             }
-        )
+        ).addTo(compositeDisposable)
     }
 
     private fun callStarShip(id: String) {
@@ -56,7 +64,10 @@ class StarWarsViewModel(private val generalRepository: GeneralRepository, privat
 
             showLoading.set(false)
             searchComplete.set(true)
-        })
+        },
+        onError = {
+            Timber.e { it.message.toString() }
+        }).addTo(compositeDisposable)
     }
 
     fun getPerson(id: String): Single<Person>{
